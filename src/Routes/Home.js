@@ -1,6 +1,6 @@
 import React from "react";
-import Base from "./Base";
 import { Link } from "react-router-dom";
+import Base from "../Core/Base";
 
 function Home() {
   const leftComp = () => {
