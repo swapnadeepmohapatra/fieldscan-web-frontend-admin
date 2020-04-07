@@ -4,7 +4,7 @@ import { getFirebase } from "../firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function ViewUsers() {
+function ViewUsersVisits({ match }) {
   const [loading, setLoading] = useState(true);
   const [places, setPlaces] = useState([]);
 
@@ -12,13 +12,15 @@ function ViewUsers() {
     getFirebase()
       .database()
       .ref("/users")
-      .orderByChild("_id")
+      .child(match.params._id)
+      .child("visits")
+      .orderByChild("visitTime")
       .once("value")
       .then((snapshot) => {
         let posts = [];
         const snapshotVal = snapshot.val();
-        for (let _id in snapshotVal) {
-          posts.push(snapshotVal[_id]);
+        for (let visitTime in snapshotVal) {
+          posts.push(snapshotVal[visitTime]);
         }
 
         const newestFirst = posts.reverse();
@@ -51,8 +53,8 @@ function ViewUsers() {
   }
   return (
     <Base
-      title="Users"
-      description="View All Users here !"
+      title="Visit History of the user"
+      description="View all the visits of this user here !"
       className="bg-white"
     >
       <table className="table">
@@ -61,9 +63,9 @@ function ViewUsers() {
             <th scope="col">#</th>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Aadhar Number</th>
-            <th scope="col">e-mail</th>
-            <th scope="col">History</th>
+            <th scope="col">Category</th>
+            <th scope="col">Address</th>
+            <th scope="col">Visit Time</th>
           </tr>
         </thead>
         <tbody>
@@ -73,13 +75,9 @@ function ViewUsers() {
                 <th scope="row">{parseInt(index) + 1}</th>
                 <td>{place._id}</td>
                 <td>{place.name}</td>
-                <td>{place.aadhar}</td>
-                <td>{place.email}</td>
-                <td>
-                  <Link to={`/admin/users/visits/${place._id}`}>
-                    <button className="btn btn-warning">View History</button>
-                  </Link>
-                </td>
+                <td>{place.category}</td>
+                <td>{place.address}</td>
+                <td>{place.visitTime}</td>
               </tr>
             );
           })}
@@ -89,4 +87,4 @@ function ViewUsers() {
   );
 }
 
-export default ViewUsers;
+export default ViewUsersVisits;

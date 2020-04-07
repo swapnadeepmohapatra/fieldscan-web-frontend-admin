@@ -6,6 +6,7 @@ import Login from "./Routes/Login";
 import ViewPlaces from "./Routes/ViewPlaces";
 import ViewUsers from "./Routes/ViewUsers";
 import ViewPlaceVisits from "./Routes/ViewPlaceVisits";
+import ViewUsersVisits from "./Routes/ViewUsersVisits";
 
 function App() {
   return (
@@ -19,6 +20,11 @@ function App() {
           path="/admin/places/visits/:_id"
           exact
           component={ViewPlaceVisits}
+        />
+        <Route
+          path="/admin/users/visits/:_id"
+          exact
+          component={ViewUsersVisits}
         />
       </Switch>
     </BrowserRouter>
