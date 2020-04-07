@@ -4,21 +4,7 @@ import { getFirebase } from "../firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function ViewPlaces() {
-  // const [data, setData] = useState([]);
-
-  // const getAllPlaces = () => {
-  //   getFirebase()
-  //     .database()
-  //     .ref("/places")
-  //     .once("child_added", (dataSnapshot) => {
-  //       console.log(dataSnapshot.val());
-  //       setData([...data, dataSnapshot.val()]);
-  //     });
-  // };
-  // useEffect(() => {
-  //   getAllPlaces();
-  // }, []);
+function ViewPlaceVisits({ match }) {
   const [loading, setLoading] = useState(true);
   const [places, setPlaces] = useState([]);
 
@@ -26,13 +12,15 @@ function ViewPlaces() {
     getFirebase()
       .database()
       .ref("/places")
-      .orderByChild("_id")
+      .child(match.params._id)
+      .child("visits")
+      .orderByChild("visitTime")
       .once("value")
       .then((snapshot) => {
         let posts = [];
         const snapshotVal = snapshot.val();
-        for (let _id in snapshotVal) {
-          posts.push(snapshotVal[_id]);
+        for (let visitTime in snapshotVal) {
+          posts.push(snapshotVal[visitTime]);
         }
 
         const newestFirst = posts.reverse();
@@ -65,8 +53,8 @@ function ViewPlaces() {
   }
   return (
     <Base
-      title="Places"
-      description="View All Places here !"
+      title="Visit History of the place"
+      description="View all the visits of this place here !"
       className="bg-white"
     >
       <table className="table">
@@ -75,9 +63,9 @@ function ViewPlaces() {
             <th scope="col">#</th>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Category</th>
-            <th scope="col">Address</th>
-            <th scope="col">History</th>
+            <th scope="col">Aadhar Number</th>
+            <th scope="col">e-mail</th>
+            <th scope="col">Visit Time</th>
           </tr>
         </thead>
         <tbody>
@@ -87,13 +75,9 @@ function ViewPlaces() {
                 <th scope="row">{parseInt(index) + 1}</th>
                 <td>{place._id}</td>
                 <td>{place.name}</td>
-                <td>{place.category}</td>
-                <td>{place.address}</td>
-                <td>
-                  <Link to={`/admin/places/visits/${place._id}`}>
-                    <button className="btn btn-warning">View History</button>
-                  </Link>
-                </td>
+                <td>{place.aadhar}</td>
+                <td>{place.email}</td>
+                <td>{place.visitTime}</td>
               </tr>
             );
           })}
@@ -103,4 +87,12 @@ function ViewPlaces() {
   );
 }
 
-export default ViewPlaces;
+export default ViewPlaceVisits;
+
+// import React from "react";
+
+// function ViewPlaceVisits({ match }) {
+//   return <div>{match.params._id}</div>;
+// }
+
+// export default ViewPlaceVisits;

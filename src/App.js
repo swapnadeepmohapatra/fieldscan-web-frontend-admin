@@ -5,7 +5,7 @@ import Home from "./Routes/Home";
 import Login from "./Routes/Login";
 import ViewPlaces from "./Routes/ViewPlaces";
 import ViewUsers from "./Routes/ViewUsers";
-import ViewVisits from "./Routes/ViewVisits";
+import ViewPlaceVisits from "./Routes/ViewPlaceVisits";
 
 function App() {
   return (
@@ -15,7 +15,11 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/admin/places" exact component={ViewPlaces} />
         <Route path="/admin/users" exact component={ViewUsers} />
-        <Route path="/admin/visits" exact component={ViewVisits} />
+        <Route
+          path="/admin/places/visits/:_id"
+          exact
+          component={ViewPlaceVisits}
+        />
       </Switch>
     </BrowserRouter>
   );

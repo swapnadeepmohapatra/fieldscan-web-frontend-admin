@@ -18,11 +18,6 @@ function Home() {
               View all Users
             </Link>
           </li>
-          <li className="list-group-item">
-            <Link to="/admin/visits" className="nav-link text-info">
-              View all Visits
-            </Link>
-          </li>
         </ul>
       </div>
     );
